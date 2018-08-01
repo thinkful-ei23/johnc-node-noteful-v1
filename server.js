@@ -29,17 +29,27 @@ app.get('/api/notes', (req, res, next) => {
   });
 });
 
-app.get('/api/notes/:id', (req,res)=>{
+app.get('/api/notes/:id', (req,res, next)=>{
     const id = req.params.id;
-    const item = data.find(item => item.id === Number(id));
-    res.json(item);
-})
+    
+    notes.find(id, (err, item) => {
+      if (err) {
+        return next(err);
+      }
+      if (item) {
+        res.json(item);
+      } else {
+        next();
+      }
+    });
+  });
 
 app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     res.status(404).json({ message: 'Not Found' });
   });
+
 
   app.use(function (err, req, res, next) {
     res.status(err.status || 500);
