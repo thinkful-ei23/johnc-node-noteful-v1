@@ -63,6 +63,19 @@ notesRouter.get('/notes/:id', (req,res, next)=>{
     });
     });
 
+    notesRouter.delete('/notes/:id',(req,res,next)=>{
+        notes.delete(req.params.id, err =>{
+            if(err){
+                err.status = 500;
+                return next(err)
+            }
+            else{
+                res.status(204).end();
+            }
+            
+        });
+    });
+
     notesRouter.post('/notes', (req, res, next) => {
         const { title, content } = req.body;
 
