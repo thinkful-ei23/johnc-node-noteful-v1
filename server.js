@@ -4,10 +4,11 @@
 
 // Load array of notes
 
-const {CONFIG_PORT} = require('./config');
+const {PORT} = require('./config');
 const notesRouter = require('./router/notes.router');
 const morgan = require('morgan');
-const port = process.env.port || CONFIG_PORT;
+const port = process.env.port || PORT;
+console.log(PORT, process.env.port);
 
 
 console.log('Hello Noteful!');
