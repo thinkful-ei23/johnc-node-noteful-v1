@@ -7,8 +7,7 @@
 const {PORT} = require('./config');
 const notesRouter = require('./router/notes.router');
 const morgan = require('morgan');
-const port = process.env.port || PORT;
-console.log(PORT, process.env.PORT);
+const port = process.env.PORT || PORT;
 
 
 console.log('Hello Noteful!');
