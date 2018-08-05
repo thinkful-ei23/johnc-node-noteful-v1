@@ -4,9 +4,10 @@
 
 // Load array of notes
 
-const {PORT} = require('./config');
+const {CONFIG_PORT} = require('./config');
 const notesRouter = require('./router/notes.router');
 const morgan = require('morgan');
+const port = process.env.port || CONFIG_PORT;
 
 
 console.log('Hello Noteful!');
@@ -41,7 +42,7 @@ app.use(function (req, res, next) {
   });
 
 if(require.main === module){
-  app.listen(PORT, function () {
+  app.listen(port, function () {
     console.info(`Server listening on ${this.address().port}`);
   }).on('error', err => {
     console.error(err);
