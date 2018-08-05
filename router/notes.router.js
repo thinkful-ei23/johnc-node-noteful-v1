@@ -16,28 +16,33 @@ const notesRouter =express.Router();
 notesRouter.get('/notes', (req, res, next) => {
     const { searchTerm } = req.query;
 
-    notes.filter(searchTerm, (err, list) => {
-    if (err) {
-        return next(err);
-    }
-    res.json(list);
+    notes.filter(searchTerm) 
+    .then(list => {
+        if(list){
+            res.json(list);
+        }
+        else{
+            next();
+        }
     });
 });
 
 notesRouter.get('/notes/:id', (req,res, next)=>{
     const id = req.params.id;
 
-    notes.find(id, (err, item) => {
-        if (err) {
-        return next(err);
-        }
-        if (item) {
+    notes.find(id)
+    .then(item => {
+    if (item) {
         res.json(item);
-        } else {
+    } else {
         next();
-        }
+    }
+    })
+    .catch(err => {
+    next(err)
     });
-    });
+});
+    
 
     notesRouter.put('/notes/:id', (req, res, next) => {
     const id = req.params.id;
@@ -51,14 +56,13 @@ notesRouter.get('/notes/:id', (req,res, next)=>{
         updateObj[field] = req.body[field];
         }
     });
-    notes.update(id, updateObj, (err, item) => {
-        if (err) {
-        return next(err);
+    notes.update(id, updateObj)
+    .then(item => {
+        if(item){
+            res.json(item);
         }
-        if (item) {
-        res.json(item);
-        } else {
-        next();
+        else{
+            next();
         }
     });
     });
